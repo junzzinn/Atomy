@@ -1,0 +1,10 @@
+<%= render "shared/navbar" %>
+
+<ul>
+  <% @users.each do |user| %>
+    <li><%= user.name %></li>
+  <% end %>
+</ul>
+
+<style>
+</style>

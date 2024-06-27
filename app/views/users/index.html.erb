@@ -1,0 +1,103 @@
+<%= render "shared/navbar" %>
+
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  .content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 15px;
+    text-align: center;
+  }
+
+  .content h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  .btn {
+    padding: 10px 16px;
+    background-color: DeepSkyBlue;
+    border: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    border-radius: 5px;
+  }
+
+  .btn:hover {
+    background-color: #1E90FF;
+    border-color: #1E90FF;
+  }
+
+  .show-link, .edit-link {
+    padding: 8px 12px;
+    background-color: #00BFFF;
+    border: 1px solid #00BFFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .show-link:hover, .edit-link:hover {
+    background-color: #4169E1;
+    border-color: #4169E1;
+  }
+</style>
+
+<div class="content">
+  <h1>Usuários</h1>
+
+  <%= link_to 'Criar Usuário', new_user_path, class: 'btn btn-primary' %>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>Produtos</th>
+        <th colspan="2">Ações</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td><%= user.phone_number %></td>
+          <td>
+            <% user.products.each do |product| %>
+              <%= product.name %>: <%= text_field_tag "user[products_attributes][#{product.id}][quantity]", product.user_products.find_by(user_id: user.id).quantity %><br>
+            <% end %>
+          </td>
+          <td><%= link_to 'Mostrar', user %></td>
+          <td><%= link_to 'Editar', edit_user_path(user) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%= link_to 'Voltar', root_path, class: 'btn' %>
+</div>

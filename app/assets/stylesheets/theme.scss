@@ -1,0 +1,89 @@
+$theme-color: DeepSkyBlue;
+
+.navbar {
+  background-color: $theme-color;
+  color: white;
+}
+
+h1, h2, h3 {
+  color: $theme-color;
+}
+
+.btn, a.btn {
+  border: none;
+  color: white;;
+  padding: 8px 16px;
+  text-decoration: none;
+  display: inline-block;
+  margin: 5px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #4169E1;
+    border-color: #4169E1;
+  }
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+  }
+
+  td.bio {
+    white-space: pre-line;
+  }
+}
+
+#error_explanation {
+  color: red;
+
+  h2 {
+    color: red;
+  }
+}
+
+nav {
+  background-color: DeepSkyBlue;
+  padding: 10px;
+  text-align: center;
+
+  a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 18px;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+form.button_to {
+  display: inline-block;
+  button[type="submit"] {
+    border: 2px solid black;
+    color: rgb(0, 0, 0);
+    padding: 10px 16px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+
+    &:hover {
+      background-color: #1E90FF;
+      border-color: #1E90FF;
+    }
+  }
+}
