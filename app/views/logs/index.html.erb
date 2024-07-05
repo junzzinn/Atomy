@@ -1,1 +1,72 @@
 <%= render "shared/navbar" %>
+
+<style>
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  ul li {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  ul li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  ul li strong {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  form {
+    margin-top: 10px;
+  }
+
+  form input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-right: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+
+  form input[type="submit"] {
+    padding: 10px 16px;
+    background-color: DeepSkyBlue;
+    border: none;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    border-radius: 5px;
+  }
+
+  form input[type="submit"]:hover {
+    background-color: #1E90FF;
+    border-color: #1E90FF;
+  }
+</style>
+
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <strong><%= user.name %></strong>
+      <%= form_for user, url: save_text_user_path(user), html: { method: :patch } do |f| %>
+        <%= f.text_field :custom_text, placeholder: "Digite o texto personalizado..." %>
+        <%= f.submit "Salvar" %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

@@ -1,14 +1,66 @@
 <%= render "shared/navbar" %>
 
+<style>
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  ul li {
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+
+  ul li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  ul li strong {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+
+  ul li ul {
+    padding-left: 20px;
+    margin-top: 10px;
+  }
+
+  ul li ul li {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+  }
+
+  input.datepicker {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+</style>
+
 <ul>
   <% @users.each do |user| %>
     <li>
-      <%= user.name %>
+      <strong><%= user.name %></strong>
       <ul>
         <% user.bio.split("\r\n").each do |product_name| %>
           <li>
             <%= product_name.strip %>
-            <input type="text" class="datepicker" name="product_dates[]" data-user="<%= user.id %>" data-product="<%= product_name.strip %>">
+            <% event = user.calendar_events.find_by(product_name: product_name.strip) %>
+            <% default_date = event && event.event_date ? event.event_date.strftime('%Y-%m-%d') : '' %>
+            <input type="text" class="datepicker" name="product_dates[]" data-user="<%= user.id %>" data-product="<%= product_name.strip %>" value="<%= default_date %>">
           </li>
         <% end %>
       </ul>
@@ -16,16 +68,34 @@
   <% end %>
 </ul>
 
-<style>
-
-</style>
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     flatpickr('.datepicker', {
       dateFormat: 'Y-m-d',
       altInput: true,
       altFormat: 'j F Y',
+      onChange: function(selectedDates, dateStr, instance) {
+        var userId = instance.element.getAttribute('data-user');
+        var productName = instance.element.getAttribute('data-product');
+
+        var formData = {
+          user_id: userId,
+          product_name: productName,
+          event_date: dateStr
+        };
+
+        fetch('/calendar/save_date', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '<%= form_authenticity_token %>'
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => console.log('Data saved:', data))
+        .catch(error => console.error('Error:', error));
+      }
     });
   });
 </script>
