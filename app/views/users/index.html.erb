@@ -5,11 +5,12 @@
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
 
   th, td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px;
     text-align: left;
   }
 
@@ -25,6 +26,7 @@
     background-color: #f9f9f9;
     border-radius: 15px;
     text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .content h1 {
@@ -33,7 +35,7 @@
   }
 
   .btn {
-    padding: 10px 16px;
+    padding: 12px 20px;
     background-color: DeepSkyBlue;
     border: none;
     color: white;
@@ -42,28 +44,31 @@
     margin-right: 10px;
     margin-bottom: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .btn:hover {
     background-color: #1E90FF;
-    border-color: #1E90FF;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
 
   .show-link, .edit-link {
-    padding: 8px 12px;
+    padding: 4px 10px;
     background-color: #00BFFF;
     border: 1px solid #00BFFF;
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .show-link:hover, .edit-link:hover {
     background-color: #4169E1;
     border-color: #4169E1;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
   }
 </style>
 
@@ -88,12 +93,12 @@
           <td><%= user.name %></td>
           <td><%= user.phone_number %></td>
           <td>
-            <% user.products.each do |product| %>
-              <%= product.name %>: <%= text_field_tag "user[products_attributes][#{product.id}][quantity]", product.user_products.find_by(user_id: user.id).quantity %><br>
+            <% user.bio.split("\r\n").each do |product_name| %>
+              <%= product_name.strip %><br>
             <% end %>
           </td>
-          <td><%= link_to 'Mostrar', user %></td>
-          <td><%= link_to 'Editar', edit_user_path(user) %></td>
+          <td><%= link_to 'Mostrar', user, class: 'show-link' %></td>
+          <td><%= link_to 'Editar', edit_user_path(user), class: 'edit-link' %></td>
         </tr>
       <% end %>
     </tbody>

@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'calendar/authorize'
+  get 'calendar/callback'
+  get 'calendar/create_event'
   get 'logs/index'
   get 'users/index'
   get 'home/index'
@@ -13,6 +16,10 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :home, only: [:index]
-  resources :users
   resources :logs, only: [:index]
+  resources :users do
+    patch 'save_text', on: :member, to: 'users#save_text'
+  end
+
+  post '/calendar/save_date', to: 'calendar#save_date'
 end

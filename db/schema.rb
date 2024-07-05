@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_27_204917) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_05_145905) do
+  create_table "calendar_events", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "product_name"
+    t.date "event_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_calendar_events_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "phone_number"
@@ -18,6 +27,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_27_204917) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "product_quantity"
+    t.text "user_text"
+    t.string "custom_text"
   end
 
+  add_foreign_key "calendar_events", "users"
 end
