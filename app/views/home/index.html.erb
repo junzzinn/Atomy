@@ -2,9 +2,30 @@
 
 <ul>
   <% @users.each do |user| %>
-    <li><%= user.name %></li>
+    <li>
+      <%= user.name %>
+      <ul>
+        <% user.bio.split("\r\n").each do |product_name| %>
+          <li>
+            <%= product_name.strip %>
+            <input type="text" class="datepicker" name="product_dates[]" data-user="<%= user.id %>" data-product="<%= product_name.strip %>">
+          </li>
+        <% end %>
+      </ul>
+    </li>
   <% end %>
 </ul>
 
 <style>
+
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    flatpickr('.datepicker', {
+      dateFormat: 'Y-m-d',
+      altInput: true,
+      altFormat: 'j F Y',
+    });
+  });
+</script>

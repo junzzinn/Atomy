@@ -69,3 +69,5 @@ group :test do
 end
 
 gem 'bootstrap', '~> 5.0.0'
+
+gem 'google-api-client', '~> 0.51'

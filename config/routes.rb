@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'calendar/authorize'
+  get 'calendar/callback'
+  get 'calendar/create_event'
   get 'logs/index'
   get 'users/index'
   get 'home/index'

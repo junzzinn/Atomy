@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       render :new
     end
   end
-  
+
   def edit
   end
 
@@ -45,6 +45,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :phone_number, :bio, products_attributes: [:id, :name, :quantity, :_destroy])
+    params.require(:user).permit(:name, :phone_number, :bio, products_attributes: [:id, :name, :_destroy])
   end
 end
