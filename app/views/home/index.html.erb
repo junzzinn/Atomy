@@ -70,32 +70,59 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    flatpickr('.datepicker', {
-      dateFormat: 'Y-m-d',
-      altInput: true,
-      altFormat: 'j F Y',
-      onChange: function(selectedDates, dateStr, instance) {
-        var userId = instance.element.getAttribute('data-user');
-        var productName = instance.element.getAttribute('data-product');
+    function initializeFlatpickr() {
+      flatpickr('.datepicker', {
+        dateFormat: 'Y-m-d',
+        altInput: true,
+        altFormat: 'j F Y',
+        onChange: function(selectedDates, dateStr, instance) {
+          var userId = instance.element.getAttribute('data-user');
+          var productName = instance.element.getAttribute('data-product');
 
-        var formData = {
-          user_id: userId,
-          product_name: productName,
-          event_date: dateStr
-        };
+          var formData = {
+            user_id: userId,
+            product_name: productName,
+            event_date: dateStr
+          };
 
-        fetch('/calendar/save_date', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': '<%= form_authenticity_token %>'
-          },
-          body: JSON.stringify(formData)
-        })
-        .then(response => response.json())
-        .then(data => console.log('Data saved:', data))
-        .catch(error => console.error('Error:', error));
-      }
-    });
+          fetch('/calendar/save_date', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': '<%= form_authenticity_token %>'
+            },
+            body: JSON.stringify(formData)
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Data saved:', data);
+
+            if (data.event_date === dateStr) {
+              alert('Alerta: ' + data.user_name + ' possui um evento para o produto ' + data.product_name);
+            }
+          })
+          .catch(error => console.error('Error:', error));
+        }
+      });
+    }
+
+    function checkEventsToday() {
+      var today = new Date();
+      var formattedToday = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+
+      document.querySelectorAll('.datepicker').forEach(function(element) {
+        var userId = element.getAttribute('data-user');
+        var productName = element.getAttribute('data-product');
+        var selectedDate = element.value;
+
+        if (selectedDate === formattedToday) {
+          alert('Alerta: Hoje (' + formattedToday + '), ' + userId + ' possui um evento para o produto ' + productName);
+        }
+      });
+    }
+
+    initializeFlatpickr();
+
+    checkEventsToday();
   });
 </script>
