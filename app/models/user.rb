@@ -1,4 +1,3 @@
 class User < ApplicationRecord
-  has_many :products
-  has_many :calendar_events
+  has_many :calendar_events, dependent: :destroy
 end

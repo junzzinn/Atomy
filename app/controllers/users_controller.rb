@@ -34,8 +34,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @user.calendar_events.destroy_all
     @user.destroy
-    redirect_to users_url, notice: 'User was successfully deleted.'
+
+    redirect_to users_url, notice: 'User and associated records were successfully deleted.'
   end
 
   private

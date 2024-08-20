@@ -60,7 +60,7 @@
             <%= product_name.strip %>
             <% event = user.calendar_events.find_by(product_name: product_name.strip) %>
             <% default_date = event && event.event_date ? event.event_date.strftime('%Y-%m-%d') : '' %>
-            <input type="text" class="datepicker" name="product_dates[]" data-user="<%= user.id %>" data-product="<%= product_name.strip %>" value="<%= default_date %>">
+            <input type="text" class="datepicker" name="product_dates[]" data-user-id="<%= user.id %>" data-user-name="<%= user.name %>" data-product="<%= product_name.strip %>" value="<%= default_date %>">
           </li>
         <% end %>
       </ul>
@@ -76,7 +76,8 @@
         altInput: true,
         altFormat: 'j F Y',
         onChange: function(selectedDates, dateStr, instance) {
-          var userId = instance.element.getAttribute('data-user');
+          var userId = instance.element.getAttribute('data-user-id');
+          var userName = instance.element.getAttribute('data-user-name');
           var productName = instance.element.getAttribute('data-product');
 
           var formData = {
@@ -98,7 +99,7 @@
             console.log('Data saved:', data);
 
             if (data.event_date === dateStr) {
-              alert('Alerta: ' + data.user_name + ' possui um evento para o produto ' + data.product_name);
+              alert('Alerta: ' + userName + ' faltando ' + data.product_name + ' no dia ' + dateStr);
             }
           })
           .catch(error => console.error('Error:', error));
@@ -111,12 +112,13 @@
       var formattedToday = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
 
       document.querySelectorAll('.datepicker').forEach(function(element) {
-        var userId = element.getAttribute('data-user');
+        var userId = element.getAttribute('data-user-id');
+        var userName = element.getAttribute('data-user-name');
         var productName = element.getAttribute('data-product');
         var selectedDate = element.value;
 
         if (selectedDate === formattedToday) {
-          alert('Alerta: Hoje (' + formattedToday + '), ' + userId + ' possui um evento para o produto ' + productName);
+          alert('Alerta: Hoje (' + formattedToday + '), ' + userName + ' faltando ' + productName);
         }
       });
     }
