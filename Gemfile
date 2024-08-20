@@ -68,6 +68,4 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'bootstrap', '~> 5.0.0'
-
-gem 'google-api-client', '~> 0.51'
+gem 'bootstrap', '~> 5.1.3' # ou a versão que você está usando
